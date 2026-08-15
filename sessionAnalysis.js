@@ -1,4 +1,3 @@
-// sessionAnalysis.js (Ethical Version for Testing Purposes)
 module.exports.defaultOptions() { 
 return { 
 targetDomainName : 'http://localhost/yourtestsite',
