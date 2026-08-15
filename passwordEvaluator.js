@@ -1,9 +1,8 @@
-// passwordEvaluator.js
 module.exports.defaultOptions() { 
 return { 
-minLength : 12,
-requireUpperLowerCase : true,
-requireSpecialChars : true,
+minLength : this.minLength,
+requireUpperLowerCase : this.requireUpperLowerCase,
+requireSpecialChars : this.requireSpecialChars,
 blacklistWordsPath : './password_blacklist.txt'
 }
 };
