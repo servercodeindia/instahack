@@ -1,28 +1,64 @@
-module.exports.defaultOptions() { 
-return { 
-minLength : this.minLength,
-requireUpperLowerCase : this.requireUpperLowerCase,
-requireSpecialChars : this.requireSpecialChars,
-blacklistWordsPath : './password_blacklist.txt'
-}
-};
+const fs = require('fs');
 
-module.exports.evaluatePassword() { 
+module.exports = function (options = {}) {
+  const settings = {
+    minLength: 12,
+    requireUpperLowerCase: true,
+    requireSpecialChars: true,
+    blacklistWordsPath: './password_blacklist.txt',
+    ...options
+  };
 
-try{ 
+  return {
+    defaultOptions() {
+      return { ...settings };
+    },
 
-if(this.options.minLength > targetPassword.length){
-throw new Error(`Target ${targetAccount}'s hash is too short!`);
-}
+    async evaluatePassword(password) {
+      if (typeof password !== 'string') {
+        throw new TypeError('Password must be a string');
+      }
 
-for(const line in fs.readFileSync(this.options.blacklistWordsPath,'utf8').split('\n')){
+      const report = {
+        length: password.length,
+        meetsMinLength: password.length >= settings.minLength,
+        hasUpperAndLower:
+          /[A-Z]/.test(password) && /[a-z]/.test(password),
+        hasSpecialChars:
+          /[^A-Za-z0-9]/.test(password),
+        foundInBlacklist: false
+      };
 
-if(line.includes(targetAccount)){
-throw new Error(`Target ${targetAccount}'s hash found in blacklist!`);
-}
+      if (settings.requireUpperLowerCase && !report.hasUpperAndLower) {
+        report.meetsUpperLowerRequirement = false;
+      } else {
+        report.meetsUpperLowerRequirement = true;
+      }
 
-}
+      if (settings.requireSpecialChars && !report.hasSpecialChars) {
+        report.meetsSpecialRequirement = false;
+      } else {
+        report.meetsSpecialRequirement = true;
+      }
 
-} catch(err){ throw new Error(`Password evaluation failed for ${targetAccount}: ${err.message}`); };
+      if (fs.existsSync(settings.blacklistWordsPath)) {
+        const blacklist = fs
+          .readFileSync(settings.blacklistWordsPath, 'utf8')
+          .split(/\r?\n/)
+          .map(word => word.trim().toLowerCase())
+          .filter(Boolean);
 
+        report.foundInBlacklist =
+          blacklist.includes(password.toLowerCase());
+      }
+
+      report.strong =
+        report.meetsMinLength &&
+        report.meetsUpperLowerRequirement &&
+        report.meetsSpecialRequirement &&
+        !report.foundInBlacklist;
+
+      return report;
+    }
+  };
 };
