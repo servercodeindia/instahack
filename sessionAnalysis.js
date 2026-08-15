@@ -1,38 +1,38 @@
-function defaultOptions() {
-  return {
+module.exports = function (options = {}) {
+  const settings = {
     targetDomainName: 'http://localhost/yourtestsite',
-    cookieName: 'sessionid'
+    cookieName: 'sessionid',
+    ...options
   };
-}
 
-async function analyzeSession(options = defaultOptions()) {
-  try {
-    const response = await fetch(`${options.targetDomainName}/`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    });
+  return {
+    defaultOptions() {
+      return {
+        ...settings
+      };
+    },
 
-    const html = await response.text();
+    async analyzeSession() {
+      const response = await fetch(`${settings.targetDomainName}/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
 
-    const cookieValueMatchArray = html.match(
-      new RegExp(`${options.cookieName}=([^;]+)`)
-    );
+      const html = await response.text();
 
-    if (!cookieValueMatchArray) {
-      throw new Error(
-        `Could not extract ${options.cookieName} from HTML`
+      const match = html.match(
+        new RegExp(`${settings.cookieName}=([^;]+)`)
       );
+
+      if (!match) {
+        throw new Error(
+          `Could not extract ${settings.cookieName} from HTML`
+        );
+      }
+
+      return match[1];
     }
-
-    return cookieValueMatchArray[1];
-  } catch (err) {
-    throw new Error(`Error analyzing session: ${err.message}`);
-  }
-}
-
-module.exports = {
-  defaultOptions,
-  analyzeSession
+  };
 };
