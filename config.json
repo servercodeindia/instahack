@@ -1,0 +1,11 @@
+{
+  "server": {"port":443},
+  
+  "sessionAnalysis": {"targetDomainName":"http://localhost/yourtestsite","cookieName":"sessionid"},
+  
+  "passwordEvaluator": {"minLength":12,"requireUpperLowerCase":true,"requireSpecialChars":true,"blacklistWordsPath":"./password_blacklist.txt"},
+  
+  "lockoutSimulator": {"botnetIoTDeviceList":["192.168.0.x","10.x.x.x"],"exponentialBackoffInitialDelayMs":1000},
+  
+  "dataSanitizer":{"sensitiveKeywords":["password","api_key"]}
+}
