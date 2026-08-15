@@ -26,7 +26,18 @@ const lockoutSimulator = require('./lockoutSimulator')(config.lockoutSimulator);
 const dataSanitizer = require('./dataSanitizer')(config.dataSanitizer);
 
 app.use(express.json());
-
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Penetration testing API is running',
+    endpoints: [
+      'POST /session-analysis',
+      'POST /password-evaluation',
+      'POST /lockout-simulation',
+      'POST /data-sanitization'
+    ]
+  });
+});
 app.post('/session-analysis', async (req, res) => {
   try {
  const targetUsername = req.body.targetUsername;
