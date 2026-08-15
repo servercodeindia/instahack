@@ -71,7 +71,8 @@ app.post('/data-sanitization', async (req, res) => {
   }
 });
 
-https.createServer({
-}, app)
-.listen(config.server.port)
+const port = process.env.PORT || config.server.port || 3000;
 
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server listening on port ${port}`);
+});
