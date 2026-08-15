@@ -1,21 +1,38 @@
-module.exports.defaultOptions() { 
-return { 
-targetDomainName : 'http://localhost/yourtestsite',
-cookieName : 'sessionid'
+function defaultOptions() {
+  return {
+    targetDomainName: 'http://localhost/yourtestsite',
+    cookieName: 'sessionid'
+  };
 }
-};
 
-module.exports.analyzeSession() { 
-try{ 
-fetch(`${this.options.targetDomainName}/`, { 
-method : 'GET',
-headers : {'Content-Type' : 'application/x-www-form-urlencoded'}
-})
-.then(response => response.text())
-.then(html => { 
-const cookieValueMatchArray=html.match(/sessionid=([^;])/); 
-if(!cookieValueMatchArray){throw new Error(`Could not extract ${this.options.cookieName} from HTML`);};
-return cookieValueMatchArray[1]; // Return extracted session ID value.
-});
-} catch(err){ throw new Error(`Error analyzing session for ${targetUsername}: ${err.message}`); };
+async function analyzeSession(options = defaultOptions()) {
+  try {
+    const response = await fetch(`${options.targetDomainName}/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+
+    const html = await response.text();
+
+    const cookieValueMatchArray = html.match(
+      new RegExp(`${options.cookieName}=([^;]+)`)
+    );
+
+    if (!cookieValueMatchArray) {
+      throw new Error(
+        `Could not extract ${options.cookieName} from HTML`
+      );
+    }
+
+    return cookieValueMatchArray[1];
+  } catch (err) {
+    throw new Error(`Error analyzing session: ${err.message}`);
+  }
+}
+
+module.exports = {
+  defaultOptions,
+  analyzeSession
 };
