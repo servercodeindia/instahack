@@ -1,4 +1,3 @@
-// app.js (Modified for Educational Use Only)
 const express = require('express');
 const fs = require('fs');
 const https = require('https');
@@ -17,6 +16,12 @@ const sessionAnalysis = require('./sessionAnalysis')(config.sessionAnalysis);
 
 // Initialize password strength evaluation module
 const passwordEvaluator = require('./passwordEvaluator')(config.passwordEvaluator);
+
+// Initialize lockout simulation module (for testing rate limiting)
+const lockoutSimulator = require('./lockoutSimulator')(config.lockoutSimulator);
+
+// Initialize data sanitization module (to protect sensitive information)
+const dataSanitizer = require('./dataSanitizer')(config.dataSanitizer);
 
 app.use(express.json());
 
@@ -39,6 +44,28 @@ app.post('/password-evaluation', async (req, res) => {
   } catch (err) {
  console.error("Error evaluating password:", err);
  res.status(500).json({ error: "Failed to evaluate password" });
+  }
+});
+
+app.post('/lockout-simulation', async (req, res) => {
+  try {
+ const targetIpAddressList = req.body.targetIpAddressList;
+ await lockoutSimulator.simulateLockouts(targetIpAddressList);
+ res.json({ success: true });
+  } catch (err) {
+ console.error("Error simulating lockouts:", err);
+ res.status(500).json({ error: "Failed to simulate lockouts" });
+  }
+});
+
+app.post('/data-sanitization', async (req, res) => {
+  try {
+ const targetDataString = req.body.targetDataString;
+ const sanitizedDataString = await dataSanitizer.sanitizeData(targetDataString);
+ res.json({ sanitizedData: sanitizedDataString });
+  } catch (err) {
+ console.error("Error sanitizing data:", err);
+ res.status(500).json({ error: "Failed to sanitize data" });
   }
 });
 
