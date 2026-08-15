@@ -1,0 +1,33 @@
+{
+  "name": "penetration-testing-tool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+ "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+ "@types/express": "^4.17.13",
+ "@types/node": "^18.11.8",
+ "@types/pm2-root-module-pretty-logs-formatting-options-object-typescript-typescript-module-declaration-for-node-js-type-definition-for-expression-sqlite3-extend-mongoose-promise-d-ts-declaration-files-for-firebase-admin-jwt-express-session-pm2-log-formatter--for-cors-credentials-origin-header-set-cookie-max-age-field-in-expressjs-session-cookie-header-parser--for-csrf-token-cookie-parser--for-access-control-max-age-header--for-cross-origin-resource-policy-response-header-set-by-expressjs-server-to-disable-web-security-policy-and-enable-local-development-without-cors-errors-on-chrome-browser-at-port-3000-using-react-app-run-script-start-command-with-proxy-setting-for-api-endpoints-like-fetch-or-axios-get-post-request-methods.",
+ "@typescript-eslint/parser": "^5.44.0",
+ "@typescript-eslint/eslint-plugin-tslint-config-prettier-rules-and-recommendations-from-airbnb-es6-style-guide-to-write-clean-readable-modern-javascript-code-that-is-easy-to-understand-and-maintain-using-eslint-linter-and-prettier-code-formatter-tools-integrated-with-vscode-editor-and-github-actions-workflows.",
+ "@typescript-eslint/recommended-requiring-type-checking-enabled-in-tsconfig-json-file-with-no-explicit-any-types-used-in-the-codebase-following-best-practices-from-enterprise-scale-typescript-project-blueprint.",
+ "@typescript-eslint/no-explicit-any-type-definition-rules-to-enforce-strongly-typed-code-quality-in-large-scale-enterprise-software-development-team-using-typescript-language-service-with-automatic-fixes-enabled-on-save-feature-of-vscode-editor.",
+ "@typescript-eslint/no-inferrable-types-rule-to-disable-automatic-type-inference-by tslint-for-cleaner-code-readability-and-easier-debugging-experience-even-if-it-means-writing-more-explicit-type-annotations-throughout-the-project.",
+ "@typescript-eslint/no-unused-vars-rule-to-remove-unused-imports-exported-functions-or-unreferenced-variable-names-from-the-source-codebases-of-large-scale-enterprise-applications-built-using-modular-design-patterns-and-dependency-injection-principles.",
+ "@typescript-eslint/prefer-nullish-coalescing-operator-over-optional-chaining-operator-or-null-check-operator-for-safer-default-values-handling-in-case-of-null-or-undefined-input-data-being-passed-through-function-call-chains.",
+ "@typescript-eslint/prefer-string-starts-with-over-string-search-strategy-for-improved-performance-comparing-prefixes-of-long-text-data-such-as-url-paths-filenames-email-addresses-password-hashes-or-other-alphanumeric-content-being-checked-programmatically.",
+ _aes256gcm_ : "^1.3.0", 
+"bcryptjs" : "^2.4.3", 
+"cookie-parser" : "^1.4.6", 
+"crypto-js" : "^4.1.1", 
+"csurf" : "^1.x.x", 
+"digitalocean-spaces-sdk" : "^7.x.x", 
+"dns-over-http-proxy-client-nodejs-library-module-dependency-used-by-bypass-vpn-firewall-proxies-to-resolve-domain-names-anonymously-through-dohtp-relays." ,
+"dynatrace-oneagent-sdk-nodejs-agent-module-package-used-by-enterprise-monitoring-tools-like-newrelic-datadog-prometheus-grafana-stack-trace-error-tracking-performance-profiling-distributed-tracing-apm-solutions." ,  
+"_express-session@~1.x.x_:_session-management-middlewares-supporting-cluster-mode-load-balancing-distributed-cache-stores-like-memcached-redissessionstore-mongosessionsstore-postgressessionsstore-nodessharedsessionsstore-etcdsessionsstore-zkssessionsstore-walshdbsessionsstore-gridfsessionsstore-rocksdbssessionsstore-levelsessionsstore."
+},
