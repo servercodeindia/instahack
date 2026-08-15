@@ -8,9 +8,7 @@ module.exports = function (options = {}) {
 
   return {
     defaultOptions() {
-      return {
-        ...settings
-      };
+      return { ...settings };
     },
 
     async sanitizeData(input) {
