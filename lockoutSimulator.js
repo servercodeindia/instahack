@@ -1,9 +1,8 @@
 module.exports = function (options = {}) {
   const settings = {
-    botnetIoTDeviceList: ['test-client-1', 'test-client-2'],
-    exponentialBackoffInitialDelayMs: 1000,
-    maxLoginAttemptsPerIp: 5,
-    rateLimitResetIntervalMs: 60000,
+    removeControlCharacters: true,
+    trimWhitespace: true,
+    maxLength: 10000,
     ...options
   };
 
@@ -14,38 +13,29 @@ module.exports = function (options = {}) {
       };
     },
 
-    async simulateLockouts(clients = settings.botnetIoTDeviceList) {
-      if (!Array.isArray(clients)) {
-        throw new TypeError('clients must be an array');
+    async sanitizeData(input) {
+      if (typeof input !== 'string') {
+        throw new TypeError('targetDataString must be a string');
       }
 
-      const results = [];
+      let sanitized = input;
 
-      for (const client of clients) {
-        let attempts = 0;
-
-        for (
-          let attempt = 1;
-          attempt <= settings.maxLoginAttemptsPerIp;
-          attempt++
-        ) {
-          attempts++;
-
-          results.push({
-            client,
-            attempt,
-            status: attempt >= settings.maxLoginAttemptsPerIp
-              ? 'rate_limited'
-              : 'allowed'
-          });
-        }
+      if (settings.removeControlCharacters) {
+        sanitized = sanitized.replace(
+          /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,
+          ''
+        );
       }
 
-      return {
-        simulated: true,
-        clientsTested: clients.length,
-        results
-      };
+      if (settings.trimWhitespace) {
+        sanitized = sanitized.trim();
+      }
+
+      if (sanitized.length > settings.maxLength) {
+        sanitized = sanitized.slice(0, settings.maxLength);
+      }
+
+      return sanitized;
     }
   };
 };
